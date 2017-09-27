@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Terrain Generator</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <form>
+            <input type="button" value="Load" onClick="map.generate()">
+            <p>Map Size</p>
+            <input min="1" max="16" value="6" type= "number"id="mapSize">
+            <p>Chunk Size</p>
+            <input min="2" max="16" value="6" type="number" id="chunkSize">
+            <p>Minimum Value</p>
+            <input min="-3" max="12" value="-3" type= "number"id="minVal">
+            <p>Maximum Value</p>
+            <input min="-3" max="12" value="12" type="number" id="maxVal">
+            <p>Starting Elevation</p>
+            <input min="-3" max="12" value="0" type="number" id="baseElevation">
+            <p>Varience Factor</p>
+            <input min="0" max="10" value="2" type="number" id="varienceFactor">
+            <p>Zoom</p>
+            <input type="range" min="1" max="20" value="10" onchange="map.draw();" id="viewSlider">
+        </form>
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div id="map"></div>
+        <script src="js/index.js">
+        
+        </script>
+        <script>
+            window.onload = map.generate();
+            slider.oninput =map.draw();
+        </script>
+    </body>
+</html>

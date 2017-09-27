@@ -1,0 +1,47 @@
+body {
+  background-color: black;
+    width: 100%;
+}
+
+pre{
+    color: white;
+    text-align: left;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word; 
+    line-height: 18px;
+}
+
+input {
+    width: 50px;
+    display: inline-block;
+    font-family: monospace;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+p{
+    display: inline-block;
+    color: white;
+    font-family: monospace;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+    margin-left: 5px;
+}
+
+.canvas-container {
+   width: 100%;
+   text-align:center;
+}
+
+canvas {
+   display: inline;
+}
