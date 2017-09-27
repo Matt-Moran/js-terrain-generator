@@ -3,7 +3,7 @@
 //Map Object
 var map = {
     //User input variables init value
-    mapSize: 6,
+    mapSize: 10,
     chunkSize: 6,
     minVal: -3,
     maxVal: 12,
