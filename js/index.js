@@ -120,25 +120,10 @@ var map = {
           for (var i = 0; i < chunkSize; i++) {
             for (var j = 0; j < chunkSize; j++) {
               var value = this['chunk' + ((l) + (t * mapSize) + 1)][(i) + (j * chunkSize)]
-              var color
-              if (value === -3) color = '#286ca8'
-              else if (value === -2) color = '#2b6ec9'
-              else if (value === -1) color = '#4d89db'
-              else if (value === 0) color = '#64a0f2'
-              else if (value === 1) color = '#FEFAF5'
-              else if (value === 2) color = '#D8F5B7'
-              else if (value === 3) color = '#B2EB6F'
-              else if (value === 4) color = '#BCED81'
-              else if (value === 5) color = '#b2eb6f'
-              else if (value === 6) color = '#a5de62'
-              else if (value === 7) color = '#A0D266'
-              else if (value === 8) color = '#90C256'
-              else if (value === 9) color = '#7CA64A'
-              else if (value === 10) color = '#7CA151'
-              else if (value === 11) color = '#7D9C57'
-              else if (value === 12) color = '#7D985E'
-              else color = '#000000'
-              ctx.fillStyle = color
+              var color = ['#286ca8', '#2b6ec9', '#4d89db', '#64a0f2', '#FEFAF5', '#D8F5B7', '#B2EB6F', '#BCED81', '#b2eb6f', '#a5de62', '#A0D266', '#90C256', '#7CA64A', '#7CA151', '#7D9C57', '#7D985E']
+              if (value < -3) ctx.fillStyle = color[0]
+              else if (value > 12) ctx.fillStyle = color[14]
+              else ctx.fillStyle = color[value + 3]
               ctx.fillRect(i * size + l * size * chunkSize, j * size + t * size * chunkSize, size, size)
               if (this.debug === true) {
                 ctx.fillStyle = '#000000'
