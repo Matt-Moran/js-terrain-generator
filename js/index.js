@@ -1,4 +1,4 @@
-/* global document performance */
+/* global performance */
 
 // Map Object
 var map = {
@@ -9,6 +9,7 @@ var map = {
   maxVal: 12,
   baseElevation: 0,
   varienceFactor: 2,
+  debug: false,
   // Time to run the object functions
   functionTime: [],
   printDebug: function () {
@@ -22,7 +23,9 @@ var map = {
       }
     }
     // Print out Debug Information
-    document.getElementById('map').innerHTML += '<pre>' + 'Map Length: ' + this.mapSize + '\nChunk Size: ' + this.chunkSize + '\nMinimum Height Voxel Value: ' + this.minVal + '\nMaximum Height Voxel Value: ' + this.maxVal + '\nAmount of Chunks: ' + Math.pow(this.mapSize, 2) + '\nAmount of Voxels: ' + Math.pow(this.mapSize, 2) * Math.pow(this.chunkSize, 2) + '\nAmount of Voxels per Chunk: ' + Math.pow(this.chunkSize, 2) + '\nAll Chunks: ' + chunkList + '\nObject Data:' + JSON.stringify(this) + '\nGeneration Time Elapsed: ' + (map.functionTime[1] - map.functionTime[0]) / 1000 + 's' + '</pre>'
+    if (this.debug === true) {
+      document.getElementById('map').innerHTML += '<pre>' + 'Map Length: ' + this.mapSize + '\nChunk Size: ' + this.chunkSize + '\nMinimum Height Voxel Value: ' + this.minVal + '\nMaximum Height Voxel Value: ' + this.maxVal + '\nAmount of Chunks: ' + Math.pow(this.mapSize, 2) + '\nAmount of Voxels: ' + Math.pow(this.mapSize, 2) * Math.pow(this.chunkSize, 2) + '\nAmount of Voxels per Chunk: ' + Math.pow(this.chunkSize, 2) + '\nAll Chunks: ' + chunkList + '\nObject Data:' + JSON.stringify(this) + '\nGeneration Time Elapsed: ' + (map.functionTime[1] - map.functionTime[0]) / 1000 + 's' + '</pre>'
+    }
   },
   loadInputs: function () {
     // Take the inputs from the HTML form and assign them to variables in the "map" object
@@ -31,7 +34,9 @@ var map = {
     this.minVal = parseInt(document.getElementById('minVal').value)
     this.maxVal = parseInt(document.getElementById('maxVal').value)
     this.baseElevation = parseInt(document.getElementById('baseElevation').value)
-    this.varienceFactor = Math.abs(parseInt(document.getElementById('varienceFactor').value))
+    this.varienceFactor = parseInt(Math.abs(parseInt(document.getElementById('varienceFactor').value)))
+    this.viewZoom = document.getElementById('viewZoom').value
+    this.debug = document.getElementById('debug').checked
   },
   createChunks: function () {
     // Create all the chunks based off the "mapSize" variable
@@ -102,7 +107,7 @@ var map = {
     }
   },
   draw: function () {
-    var size = document.getElementById('viewSlider').value
+    var size = this.viewZoom
     var chunkSize = this.chunkSize
     var mapSize = this.mapSize
     var canvas = document.getElementById('canvas')
@@ -135,15 +140,19 @@ var map = {
               else color = '#000000'
               ctx.fillStyle = color
               ctx.fillRect(i * size + l * size * chunkSize, j * size + t * size * chunkSize, size, size)
-              ctx.fillStyle = 'rgb(255,255,255)'
-              ctx.font = '25px Arial'
-              // ctx.fillText(value, i*size+l*size*chunkSize+10, j*size+t*size*chunkSize+size-10);
+              if (this.debug === true) {
+                ctx.fillStyle = '#000000'
+                ctx.font = (size / 2) + 'px Arial'
+                ctx.fillText(value, i * size + l * size * chunkSize + size / 3, j * size + t * size * chunkSize + size / 1.5, size, size)
+              }
             }
           }
           ctx.lineWidth = 3
           ctx.strokeStyle = 'rgb(255,255,255)'
           ctx.setLineDash([5, 10])
-          // ctx.strokeRect(l*chunkSize*size, t*chunkSize*size, size*chunkSize, size*chunkSize);
+          if (this.debug === true) {
+            ctx.strokeRect(l * chunkSize * size, t * chunkSize * size, size * chunkSize, size * chunkSize)
+          }
         }
       }
     }
@@ -166,7 +175,7 @@ var map = {
     this.rowInterpolation()
     this.collumnInterpolation()
     // Draw the final map
-    // this.draw();
+    this.draw()
     // -------------------------------------------
     // Get final time for debug
     this.functionTime[1] = performance.now()
