@@ -7,7 +7,22 @@ class Map {
     this.baseElevation = baseElevation
     this.varienceFactor = varienceFactor
   }
-    
+
+  // utility functions used in the generation process functions
+  biasRan (inputVal) {
+    var currentVal = inputVal + (Math.floor(Math.random() * (this.varienceFactor * 2 + 1) - this.varienceFactor))
+    if (currentVal <= this.minVal) {
+      currentVal = this.minVal
+    } else if (currentVal >= this.maxVal) {
+      currentVal = this.maxVal
+    }
+    return currentVal
+  }
+
+  averageCorners (chunkX, chunkY) {
+    return Math.ceil((chunkX + chunkY) / 2)
+  }
+
   createChunks () {
     // Create all the chunks based off the "mapSize" variable
     for (var i = 1; i <= Math.pow(this.mapSize, 2); i++) {
@@ -17,21 +32,8 @@ class Map {
       }
     }
   }
-    
-  biasRan (inputVal) {
-    var currentVal = inputVal + (Math.floor(Math.random() * (this.varienceFactor * 2 + 1) - this.varienceFactor))
-    if (currentVal <= this.minVal) {
-      currentVal = this.minVal
-    } else if (currentVal >= this.maxVal) {
-      currentVal = this.maxVal
-    }
-    return currentVal
-  } 
-    
-  averageCorners (chunkX, chunkY) {
-    return Math.ceil((chunkX + chunkY) / 2)
-  }
-    
+
+  // functions that are used in the generation process
   assignCorners () {
     for (var i = 1; i <= Math.pow(this.mapSize, 2); i++) {
       if (i === 1) {
@@ -57,7 +59,7 @@ class Map {
       }
     }
   }
-  
+
   rowInterpolation () {
     for (var i = 1; i <= Math.pow(this.mapSize, 2); i++) {
       var corner = [this['chunk' + i][0], this['chunk' + i][this.chunkSize - 1], this['chunk' + i][Math.pow(this.chunkSize, 2) - this.chunkSize], this['chunk' + i][Math.pow(this.chunkSize, 2) - 1]]
@@ -69,7 +71,7 @@ class Map {
       }
     }
   }
-    
+
   collumnInterpolation () {
     for (var i = 1; i <= Math.pow(this.mapSize, 2); i++) {
       for (var j = 1; j <= this.chunkSize; j++) {
@@ -81,17 +83,22 @@ class Map {
       }
     }
   }
-    
-  get generate () {
-      this.createChunks()
-      this.assignCorners()
-      this.rowInterpolation
-      this.collumnInterpolation
-      return this
+
+  // run four steps to generate a map
+  generate () {
+    this.createChunks()
+    this.assignCorners()
+    this.rowInterpolation()
+    this.collumnInterpolation()
+    return this
   }
 
+  // static functions
+  static getChunk (mapVal, chunkVal) {
+    return mapVal['chunk' + chunkVal]
+  }
+
+  static getVoxel (mapVal, chunkVal, voxelVal) {
+    return mapVal['chunk' + chunkVal][voxelVal]
+  }
 }
-
-const map1 = new Map(6, 6, -3, 12, 0, 2)
-
-console.log(map1.generate)
