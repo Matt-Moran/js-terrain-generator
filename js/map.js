@@ -1,4 +1,5 @@
 class Map {
+  // Constructor assigns inputs to the object
   constructor (mapSize, chunkSize, minVal, maxVal, baseElevation, varienceFactor) {
     this.mapSize = mapSize
     this.chunkSize = chunkSize
@@ -8,7 +9,7 @@ class Map {
     this.varienceFactor = varienceFactor
   }
 
-  // utility functions used in the generation process functions
+  // Utility functions used in the generation process functions
   biasRan (inputVal) {
     var currentVal = inputVal + (Math.floor(Math.random() * (this.varienceFactor * 2 + 1) - this.varienceFactor))
     if (currentVal <= this.minVal) {
@@ -19,12 +20,13 @@ class Map {
     return currentVal
   }
 
-  averageCorners (chunkX, chunkY) {
-    return Math.ceil((chunkX + chunkY) / 2)
+  //Averages two corner values
+  averageCorners (cornerX, cornerY) {
+    return Math.ceil((cornerX + cornerY) / 2)
   }
 
+  //Generates the initial chunk arrays in the object determined by the "mapSize" value
   createChunks () {
-    // Create all the chunks based off the "mapSize" variable
     for (var i = 1; i <= Math.pow(this.mapSize, 2); i++) {
       this['chunk' + i] = []
       for (var j = 1; j <= Math.pow(this.chunkSize, 2); j++) {
@@ -33,7 +35,7 @@ class Map {
     }
   }
 
-  // functions that are used in the generation process
+  // Functions that are used in the generation process
   assignCorners () {
     for (var i = 1; i <= Math.pow(this.mapSize, 2); i++) {
       if (i === 1) {
@@ -94,39 +96,11 @@ class Map {
   }
   
   // "get" functions
-  getMap () {
-    return this
-  }
-
   getChunk (chunkVal) {
     if (this['chunk' + chunkVal] !== null) return this['chunk' + chunkVal]
   }
   
   getVoxel (chunkVal, voxelVal) {
     if (this['chunk' + chunkVal] !== null || this['chunk' + chunkVal][voxelVal] !== null) return this['chunk' + chunkVal][voxelVal]
-  }
-  
-  getMapSize () {
-    return this.mapSize
-  }
-
-  getChunkSize () {
-    return this.chunkSize
-  } 
-
-  getMinVal () {
-    return this.minVal
-  }
-
-  getMaxVal () {
-    return this.maxVal
-  }
-
-  getBaseElevation () {
-    return this.baseElevation
-  }
-
-  getVarienceFactor () {
-    return this.varienceFactor
   }
 }
