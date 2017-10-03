@@ -94,11 +94,15 @@ class Map {
   }
 
   // static functions
+  static getMap (mapVal) {
+    if (mapVal !== null) return mapVal
+  }
+
   static getChunk (mapVal, chunkVal) {
-    return mapVal['chunk' + chunkVal]
+    if (mapVal['chunk' + chunkVal] !== null) return mapVal['chunk' + chunkVal]
   }
 
   static getVoxel (mapVal, chunkVal, voxelVal) {
-    return mapVal['chunk' + chunkVal][voxelVal]
+    if (mapVal['chunk' + chunkVal] !== null || mapVal['chunk' + chunkVal][voxelVal] !== null) return mapVal['chunk' + chunkVal][voxelVal]
   }
 }
