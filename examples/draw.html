@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Terrain Generator</title>
+    <script src="../js/map.js"></script>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      function draw (mapVal) {
+        var size = 4
+        var color = ['#286ca8', '#2b6ec9', '#4d89db', '#64a0f2', '#FEFAF5', '#D8F5B7', '#B2EB6F', '#BCED81', '#b2eb6f', '#a5de62', '#A0D266', '#90C256', '#7CA64A', '#7CA151', '#7D9C57', '#7D985E']
+        var canvas = document.getElementById('canvas')
+        if (canvas.getContext) {
+          var ctx = canvas.getContext('2d')
+          ctx.canvas.width = size * mapVal.chunkSize * mapVal.mapSize
+          ctx.canvas.height = size * mapVal.chunkSize * mapVal.mapSize
+          for (var t = 0; t < mapVal.mapSize; t++) {
+            for (var l = 0; l < mapVal.mapSize; l++) {
+              for (var i = 0; i < mapVal.chunkSize; i++) {
+                for (var j = 0; j < mapVal.chunkSize; j++) {
+                  var value = mapVal['chunk' + ((l) + (t * mapVal.mapSize) + 1)][(i) + (j * mapVal.chunkSize)]
+                  if (value < -3) ctx.fillStyle = color[0]
+                  else if (value > 12) ctx.fillStyle = color[14]
+                  else ctx.fillStyle = color[value + 3]
+                  ctx.fillRect(i * size + l * size * mapVal.chunkSize, j * size + t * size * mapVal.chunkSize, size, size)
+                }
+              }
+            }
+          }
+        }
+      }
+      const map1 = new Map(30, 10, -3, 12, 0, 2)
+      map1.generate()
+      draw(map1)
+    </script>
+  </body>
+</html>
