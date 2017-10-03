@@ -92,17 +92,41 @@ class Map {
     this.collumnInterpolation()
     return this
   }
-
-  // static functions
-  static getMap (mapVal) {
-    if (mapVal !== null) return mapVal
+  
+  // "get" functions
+  getMap () {
+    return this
   }
 
-  static getChunk (mapVal, chunkVal) {
-    if (mapVal['chunk' + chunkVal] !== null) return mapVal['chunk' + chunkVal]
+  getChunk (chunkVal) {
+    if (this['chunk' + chunkVal] !== null) return this['chunk' + chunkVal]
+  }
+  
+  getVoxel (chunkVal, voxelVal) {
+    if (this['chunk' + chunkVal] !== null || this['chunk' + chunkVal][voxelVal] !== null) return this['chunk' + chunkVal][voxelVal]
+  }
+  
+  getMapSize () {
+    return this.mapSize
   }
 
-  static getVoxel (mapVal, chunkVal, voxelVal) {
-    if (mapVal['chunk' + chunkVal] !== null || mapVal['chunk' + chunkVal][voxelVal] !== null) return mapVal['chunk' + chunkVal][voxelVal]
+  getChunkSize () {
+    return this.chunkSize
+  } 
+
+  getMinVal () {
+    return this.minVal
+  }
+
+  getMaxVal () {
+    return this.maxVal
+  }
+
+  getBaseElevation () {
+    return this.baseElevation
+  }
+
+  getVarienceFactor () {
+    return this.varienceFactor
   }
 }
